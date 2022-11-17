@@ -1,0 +1,33 @@
+{
+  "name": "@atom/react",
+  "version": "1.0.0",
+  "description": "",
+  "keywords": [],
+  "buildOptions": {
+    "name": "AtomReact",
+    "formats": [
+      "es",
+      "umd",
+      "cjs"
+    ]
+  },
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/atom-react.umd.js",
+  "module": "./dist/atom-react.es.js",
+  "types": "./dist/atom-react/src/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/atom-react.es.js",
+      "require": "./dist/atom-react.umd.js",
+      "types": "./dist/atom-react/src/index.d.ts"
+    }
+  },
+  "dependencies": {
+    "@types/react": "^18.0.25",
+    "atom": "workspace:*",
+    "react": "^18.2.0",
+    "veaury": "^2.3.10"
+  }
+}

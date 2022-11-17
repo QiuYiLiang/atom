@@ -1,0 +1,24 @@
+{
+  "name": "atom",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "watch": "node scripts/watch.js",
+    "build": "node scripts/build.js"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^23.0.2",
+    "@rollup/plugin-json": "^5.0.1",
+    "@rollup/plugin-node-resolve": "^15.0.1",
+    "@rollup/plugin-replace": "^5.0.1",
+    "@rollup/plugin-terser": "^0.1.0",
+    "minimist": "^1.2.7",
+    "rollup": "^3.3.0",
+    "rollup-plugin-node-builtins": "^2.1.2",
+    "rollup-plugin-node-globals": "^1.4.0",
+    "rollup-plugin-polyfill-node": "^0.11.0",
+    "rollup-plugin-typescript2": "^0.34.1",
+    "tslib": "^2.4.1",
+    "typescript": "^4.6.4"
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "name": "@atom/shared",
+  "version": "1.0.0",
+  "description": "",
+  "keywords": [],
+  "buildOptions": {
+    "formats": [
+      "es",
+      "cjs"
+    ]
+  },
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/atom-shared.umd.js",
+  "module": "./dist/atom-shared.es.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/atom-shared.es.js",
+      "require": "./dist/atom-shared.umd.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "dependencies": {
+    "@types/react": "^18.0.25",
+    "react": "^18.2.0",
+    "vue": "^3.2.45",
+    "veaury": "^2.3.10"
+  }
+}

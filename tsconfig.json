@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "baseUrl": ".",
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "paths": {
+      "atom": ["packages/atom/src"],
+      "@atom/*": ["packages/*/src"],
+      "shared": ["packages/shared/src"]
+    },
+    "target": "ESNext",
+    "allowJs": false,
+    "skipLibCheck": true,
+    "esModuleInterop": false,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true
+  },
+  "include": ["packages/*/src"]
+}

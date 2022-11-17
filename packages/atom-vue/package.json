@@ -1,0 +1,32 @@
+{
+  "name": "@atom/vue",
+  "version": "1.0.0",
+  "description": "",
+  "keywords": [],
+  "buildOptions": {
+    "name": "AtomVue",
+    "formats": [
+      "es",
+      "umd",
+      "cjs"
+    ]
+  },
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/atom-vue.umd.js",
+  "module": "./dist/atom-vue.es.js",
+  "types": "./dist/atom-vue/src/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/atom-vue.es.js",
+      "require": "./dist/atom-vue.umd.js",
+      "types": "./dist/atom-vue/src/index.d.ts"
+    }
+  },
+  "dependencies": {
+    "atom": "workspace:*",
+    "veaury": "^2.3.10",
+    "vue": "^3.2.45"
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "name": "atom",
+  "version": "1.0.0",
+  "description": "",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "buildOptions": {
+    "name": "Atom",
+    "formats": [
+      "es",
+      "umd",
+      "cjs"
+    ]
+  },
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/atom.umd.js",
+  "module": "./dist/atom.es.js",
+  "types": "./dist/atom/src/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/atom.es.js",
+      "require": "./dist/atom.umd.js",
+      "types": "./dist/atom/src/index.d.ts"
+    }
+  },
+  "dependencies": {
+    "@atom/react": "workspace:*",
+    "@atom/vue": "workspace:*",
+    "@types/react": "^18.0.25",
+    "@types/react-dom": "^18.0.9",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "veaury": "^2.3.10",
+    "vue": "^3.2.45"
+  }
+}
