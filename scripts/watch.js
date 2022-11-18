@@ -57,7 +57,7 @@ const outputOptionsList = formats.map((format) => ({
   },
 }));
 
-// watch();
+watch();
 
 function watch() {
   const watcher = rollup.watch({
@@ -67,56 +67,6 @@ function watch() {
       include: resolve(packageDir, "src/**"),
     },
   });
-
-  watcher.on("event", (event) => {
-    switch (event.code) {
-      case "BUNDLE_START":
-        console.info(`${packageName} Bundling...`);
-        break;
-      case "BUNDLE_END":
-        console.info(`${packageName} Bundled!`);
-        break;
-    }
-  });
-
-  process.on("exit", () => {
-    watcher.close();
-  });
-}
-
-watch2();
-
-function watch2(packageName) {
-  const packageDir = `./packages/${packageName}`;
-  const packageSrc = `${packageDir}/src`;
-  const watchOptions = {
-    input: `${packageSrc}/index.ts`,
-    output: {
-      dir: resolve(packageDir, "./dist"),
-      name: packageName,
-      entryFileNames: `${target}.es.js`,
-      format: "es",
-      sourcemap: true,
-      globals: {
-        react: "React",
-        "react-dom": "ReactDom",
-        vue: "Vue",
-        veaury: "Veaury",
-      },
-    },
-    plugins: [
-      typescript({
-        tsconfigOverride: {
-          compilerOptions: {
-            declaration: true,
-          },
-          include: [packageSrc],
-        },
-      }),
-    ],
-    external: ["react", "react-dom", "vue", "veaury"],
-  };
-  const watcher = rollup.watch(watchOptions);
 
   watcher.on("event", (event) => {
     switch (event.code) {

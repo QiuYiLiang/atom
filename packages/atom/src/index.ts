@@ -2,11 +2,6 @@ import { createElement, FC, StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { createApp, h } from "vue";
 import { AtomVueRender, AtomReactRender } from "@atom/shared";
-import {
-  getCurrentCreatingAtom,
-  popCreatingAtoms,
-  pushCreatingAtoms,
-} from "./creating-atom";
 
 type SetMethod = (
   methodIdOrMethod: Method | string,
@@ -40,6 +35,14 @@ type CreateAtom = (
 ) => Atom;
 
 type TransformType = (atom: Atom) => Atom;
+
+const creatingAtoms: Atom[] = [];
+
+const getCurrentCreatingAtom = () => creatingAtoms[creatingAtoms.length - 1];
+
+const pushCreatingAtoms = creatingAtoms.push.bind(creatingAtoms);
+
+const popCreatingAtoms = creatingAtoms.pop.bind(creatingAtoms);
 
 const makeAtomFunction =
   (functionName: string) =>

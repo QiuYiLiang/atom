@@ -117,5 +117,6 @@ async function build(target) {
 async function generateOutputs(bundle, outputOptionsList) {
   for (const outputOptions of outputOptionsList) {
     await bundle.write(outputOptions);
+    console.info(`${outputOptions.name} ${outputOptions.format} Bundled!`);
   }
 }
