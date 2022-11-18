@@ -2,6 +2,11 @@ import { createElement, FC, StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { createApp, h } from "vue";
 import { AtomVueRender, AtomReactRender } from "@atom/shared";
+import {
+  getCurrentCreatingAtom,
+  popCreatingAtoms,
+  pushCreatingAtoms,
+} from "./creating-atom";
 
 type SetMethod = (
   methodIdOrMethod: Method | string,
@@ -36,14 +41,6 @@ type CreateAtom = (
 
 type TransformType = (atom: Atom) => Atom;
 
-const creatingAtoms: Atom[] = [];
-
-const getCurrentCreatingAtom = () => creatingAtoms[creatingAtoms.length - 1];
-
-const pushCreatingAtoms = creatingAtoms.push.bind(creatingAtoms);
-
-const popCreatingAtoms = creatingAtoms.pop.bind(creatingAtoms);
-
 const makeAtomFunction =
   (functionName: string) =>
   (...args: any) => {
@@ -52,9 +49,7 @@ const makeAtomFunction =
 
 export const method = makeAtomFunction("setMethod") as SetMethod;
 
-export const view = makeAtomFunction("setReactView") as SetView;
-
-export const viewVue = makeAtomFunction("setVueView") as SetView;
+export const view = makeAtomFunction("setView") as SetView;
 
 export const transformType = makeAtomFunction(
   "setTransformType"
@@ -192,10 +187,11 @@ type VIEW_ID = "default" | string;
 export class View extends Id<VIEW_ID> {
   type: VIEW_TYPE;
   Component: any;
-  constructor(id: any = "default", Component: any, type: VIEW_TYPE = "react") {
+  constructor(id: any = "default", Component: any) {
     super(id);
+
     this.Component = Component;
-    this.type = type;
+    this.type = Component.render ? "vue" : "react";
   }
 }
 
@@ -307,26 +303,14 @@ export class Atom extends Internal {
     this._parentAtom = atom;
   }
 
-  setView(
-    viewIdOrViewOrComponent: View | VIEW_ID | any,
-    Component?: any,
-    type?: VIEW_TYPE
-  ) {
+  setView(viewIdOrViewOrComponent: View | VIEW_ID | any, Component?: any) {
     const view =
       viewIdOrViewOrComponent instanceof View
         ? viewIdOrViewOrComponent
         : typeof viewIdOrViewOrComponent === "string"
-        ? new View(viewIdOrViewOrComponent, Component, type)
-        : new View("default", viewIdOrViewOrComponent, type);
+        ? new View(viewIdOrViewOrComponent, Component)
+        : new View("default", viewIdOrViewOrComponent);
     this._viewMap.set(view.id, view);
-  }
-
-  setReactView(...[viewIdOrViewOrComponent, Component]: Parameters<SetView>) {
-    this.setView(viewIdOrViewOrComponent, Component, "react");
-  }
-
-  setVueView(...[viewIdOrViewOrComponent, Component]: Parameters<SetView>) {
-    this.setView(viewIdOrViewOrComponent, Component, "vue");
   }
 
   getView(viewId: VIEW_ID = "default") {
