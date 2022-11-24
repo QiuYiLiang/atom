@@ -114,10 +114,7 @@ export const registerAtom = (type: string, atomFC: AtomFC) => {
 export const r = registerAtom;
 
 export class Id<I = string> {
-  private _id: I;
-  constructor(id: I) {
-    this._id = id;
-  }
+  constructor(private _id: I) {}
   get id() {
     return this._id;
   }
@@ -143,10 +140,8 @@ export class I18n extends Id {
 }
 
 export class Internal extends I18n {
-  private _internal: boolean;
-  constructor(id: string, i18n?: any, internal = false) {
+  constructor(id: string, i18n?: any, private _internal: boolean = false) {
     super(id, i18n);
-    this._internal = internal;
   }
   get internal() {
     return this._internal;
@@ -189,11 +184,8 @@ type VIEW_ID = "default" | string;
 
 export class View extends Id<VIEW_ID> {
   type: VIEW_TYPE;
-  Component: any;
-  constructor(id: any = "default", Component: any) {
+  constructor(id: any = "default", public Component: any) {
     super(id);
-
-    this.Component = Component;
     this.type = Component.render ? "vue" : "react";
   }
 }
