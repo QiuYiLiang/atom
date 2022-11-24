@@ -1,6 +1,5 @@
-import { Button, Popover, Tree } from "antd";
+import { Button, Popover, Tree, Upload } from "antd";
 import { Atom, c, extend, r, method, transformType, Var, view } from "atom";
-import "antd/dist/antd.css";
 import { VueApp } from "./VueApp";
 import { useAtomValue } from "@atom/react";
 import VueAtomView from "./VueAtomView.vue";
@@ -172,12 +171,67 @@ export const App = r("App", (atom) => {
   });
 });
 
+export const fileToBase64File = async (file: File) => {
+  const { lastModified, name, size, webkitRelativePath } = file;
+  const base64 = await blobToBase64(file);
+  return {
+    lastModified,
+    name,
+    size,
+    webkitRelativePath,
+    base64,
+  };
+};
+
+export const blobToBase64 = (blob: Blob) =>
+  new Promise((reslove) => {
+    var reader = new FileReader();
+    reader.readAsDataURL(blob);
+    reader.onload = (e: any) => {
+      reslove(e.target.result);
+    };
+  });
+
+export const downloadBase64File = (base64File: any) => {
+  const { base64, name } = base64File;
+  const parts = base64.split(";base64,");
+  const contentType = parts[0].split(":")[1];
+  const raw = window.atob(parts[1]);
+  const rawLength = raw.length;
+  const uInt8Array = new Uint8Array(rawLength);
+  for (let i = 0; i < rawLength; ++i) {
+    uInt8Array[i] = raw.charCodeAt(i);
+  }
+  const blob = new Blob([uInt8Array], {
+    type: contentType,
+  });
+
+  const aLink = document.createElement("a");
+  aLink.download = name;
+  aLink.href = URL.createObjectURL(blob);
+  aLink.click();
+
+  return URL.createObjectURL(blob);
+};
 export const ReactApp = r("ReactApp", () => {
   const vueApp = VueApp("vueApp");
   view(() => {
     return (
       <div>
         ReactApp
+        <Upload
+          name="file"
+          customRequest={async ({ file }: any) => {
+            // console.log(((window as any).bbb = file));
+
+            const base64File = await fileToBase64File(file);
+
+            // console.log(((window as any).aaa = base64File));
+            downloadBase64File(base64File as any);
+          }}
+        >
+          <Button>Click to Upload</Button>
+        </Upload>
         <vueApp.Render />
       </div>
     );
